@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import {Button, Text, View} from 'react-native';
 
 import { grpc } from '@improbable-eng/grpc-web';
-import xhrTransport from './xhrTransport';
+import { ReactNativeTransport } from './ReactNativeTransport';
+grpc.setDefaultTransport(ReactNativeTransport());
 
 import { Greeter } from './helloworld/helloworld_pb_service';
 import { HelloRequest } from './helloworld/helloworld_pb';
@@ -19,7 +20,6 @@ export default () => {
     grpc.unary(Greeter.SayHello, {
       request: helloRequest,
       host: 'http://localhost:50050',
-      transport: xhrTransport,
       onEnd: res => {
         console.log(res);
       }
