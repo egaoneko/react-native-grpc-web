@@ -31,6 +31,13 @@ rm -f $PROTOC_ZIP
 ## Install grpc-web
 
 ```sh
+GROC_WEB_PLUGIN=protoc-gen-grpc-web-1.0.6-darwin-x86_64
+curl -OL https://github.com/grpc/grpc-web/releases/download/1.0.6/$GROC_WEB_PLUGIN
+sudo mv $GROC_WEB_PLUGIN /usr/local/bin/protoc-gen-grpc-web
+chmod +x /usr/local/bin/protoc-gen-grpc-web
+```
+
+```sh
 npm install ts-protoc-gen
 ```
 
@@ -41,7 +48,12 @@ protoc \
   --proto_path=proto \
   --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts \
   --js_out=import_style=commonjs:client/helloworld \
-  --ts_out=service=true:client/helloworld \
+  --ts_out=service=grpc-web:client/helloworld \
+  helloworld.proto
+protoc \
+  --proto_path=proto \
+  --js_out=import_style=commonjs:web/src/helloworld \
+  --grpc-web_out=import_style=commonjs,mode=grpcwebtext:web/src/helloworld \
   helloworld.proto
 protoc \
   --proto_path=proto \
