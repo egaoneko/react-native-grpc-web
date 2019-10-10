@@ -8,10 +8,11 @@
 
 ```sh
 brew install protobuf
+brew install go
 ```
 
 ```sh
-PROTOC_ZIP=protoc-3.7.1-osx-x86_64.zip
+PROTOC_ZIP=protoc-3.10.0-osx-x86_64.zip
 curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v3.10.0/$PROTOC_ZIP
 sudo unzip -o $PROTOC_ZIP -d /usr/local bin/protoc
 sudo unzip -o $PROTOC_ZIP -d /usr/local 'include/*'
@@ -27,6 +28,15 @@ sudo unzip -o $PROTOC_ZIP -d /usr/local bin/protoc
 sudo unzip -o $PROTOC_ZIP -d /usr/local 'include/*'
 rm -f $PROTOC_ZIP
 ```
+
+### Install for go
+
+```sh
+go get -u google.golang.org/grpc
+go get -u github.com/golang/protobuf/proto
+go get -u github.com/golang/protobuf/protoc-gen-go
+export PATH=$HOME/go/bin:$PATH
+``
 
 ## Install grpc-web
 
