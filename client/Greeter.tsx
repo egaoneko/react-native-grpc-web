@@ -6,46 +6,32 @@ import { grpc } from '@improbable-eng/grpc-web';
 import { ReactNativeTransport } from './ReactNativeTransport';
 grpc.setDefaultTransport(ReactNativeTransport());
 
-import { Greeter } from './helloworld/helloworld_pb_service';
-import { HelloRequest } from './helloworld/helloworld_pb';
+// import { GreeterClient, HelloRequest } from 'proto-ts';
+import { GreeterClient } from './proto-ts/lib/helloworld_pb_service';
+import { HelloRequest } from './proto-ts/lib/helloworld_pb';
+import axios from 'axios';
 
 export default () => {
   const [response, setResponse] = useState('');
   
   async function onGreet() {
-    console.log(Greeter.SayHello, HelloRequest);
-
-    const helloRequest = new HelloRequest();
-    helloRequest.setName('World');
-    grpc.unary(Greeter.SayHello, {
-      request: helloRequest,
-      host: 'http://localhost:50050',
-      onEnd: res => {
-        console.log(res);
-      }
-    });
-    // const helloService = new helloworld.GreeterClient('http://localhost:50050');
-    // try {
-    //   const request = new helloworld.HelloRequest();
-    //   request.setName('World');
-    //   const metadata = {'custom-header-1': 'value1'};
-    //   const call = helloService.sayHello(
-    //     request,
-    //     metadata,
-    //     (err, res) => {
-    //       console.log(err, res);
-    //       setResponse(res || (err && err.message));
-    //     },
-    //   );
-
-    //   call.on('status', function(status) {
-    //     console.log(status.code);
-    //     console.log(status.details);
-    //     console.log(status.metadata);
-    //   });
-    // } catch (e) {
-    //   console.error(e);
-    // }
+    axios.get('http://192.168.1.79:9000')
+      .then(r => console.log(r));
+    const service = new GreeterClient('http://192.168.1.79:9000');
+    try {
+      const request = new HelloRequest();
+      request.setName('World');
+      const metadata = { 'custom-header-1': 'value1' };
+      service.sayHello(request, metadata, (err: any, res: any) => {
+        console.log(err, res);
+        setResponse(
+          (res && res.toObject() && JSON.stringify(res.toObject())) ||
+            (err && err.message)
+        );
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (
