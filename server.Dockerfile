@@ -24,7 +24,7 @@ COPY ./server ./server
 RUN /usr/bin/protoc/bin/protoc --proto_path=proto --go_out=plugins=grpc:server/helloworld helloworld.proto
 
 # Run the server (Again, should it use go-wrapper run?)
-ENV PORT=50050
+ENV PORT=9010
 EXPOSE $PORT
 
 CMD ["go", "run", "./server/main.go"]

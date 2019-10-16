@@ -57,13 +57,8 @@ npm install ts-protoc-gen
 protoc \
   --proto_path=proto \
   --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts \
-  --js_out=import_style=commonjs:client/helloworld \
-  --ts_out=service=grpc-web:client/helloworld \
-  helloworld.proto
-protoc \
-  --proto_path=proto \
-  --js_out=import_style=commonjs:web/src/helloworld \
-  --grpc-web_out=import_style=commonjs,mode=grpcwebtext:web/src/helloworld \
+  --js_out=import_style=commonjs:proto-ts/lib \
+  --ts_out=service=grpc-web:proto-ts/lib \
   helloworld.proto
 protoc \
   --proto_path=proto \
@@ -78,10 +73,15 @@ protoc \
 ```sh
 rm -rf ios/build
 react-native run-ios --simulator="iPhone 8"
+react-native run-android
 ```
 
 ### Server
 
 ```sh
 GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info go run ./server/main.go
+```
+
+```sh
+docker-compose up -d server envoy
 ```
