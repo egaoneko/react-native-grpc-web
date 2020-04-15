@@ -2,7 +2,7 @@
   "name": "react-native-grcp",
   "version": "1.0.0",
   "dependencies": {
-    "ts-protoc-gen": "^0.11.0"
+    "ts-protoc-gen": "0.12.0"
   },
   "devDependencies": {},
   "scripts": {},

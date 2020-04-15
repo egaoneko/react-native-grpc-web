@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import { GreeterClient, HelloRequest } from 'proto-ts';
+import { GreeterClient } from 'proto-ts/lib/helloworld_pb_service';
+import { HelloRequest } from 'proto-ts/lib/helloworld_pb';
 
 export default () => {
   const [response, setResponse] = useState('');
@@ -10,7 +11,7 @@ export default () => {
     try {
       const request = new HelloRequest();
       request.setName('World');
-      const metadata = { 'custom-header-1': 'value1' };
+      const metadata: any = { 'custom-header-1': 'value1' };
       service.sayHello(request, metadata, (err: any, res: any) => {
         console.log(err, res);
         setResponse(

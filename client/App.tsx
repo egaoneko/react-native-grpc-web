@@ -5,7 +5,7 @@
  * @format
  * @flow
  */
-
+import './libs';
 import React from 'react';
 import {
   SafeAreaView,

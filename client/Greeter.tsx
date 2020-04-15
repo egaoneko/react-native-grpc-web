@@ -2,21 +2,13 @@ import React, { useState } from 'react';
 
 import {Button, Text, View} from 'react-native';
 
-import { grpc } from '@improbable-eng/grpc-web';
-import { ReactNativeTransport } from './ReactNativeTransport';
-grpc.setDefaultTransport(ReactNativeTransport());
-
-// import { GreeterClient, HelloRequest } from 'proto-ts';
-import { GreeterClient } from './proto-ts/lib/helloworld_pb_service';
-import { HelloRequest } from './proto-ts/lib/helloworld_pb';
-import axios from 'axios';
+import { GreeterClient } from 'proto-ts/lib/helloworld_pb_service';
+import { HelloRequest } from 'proto-ts/lib/helloworld_pb';
 
 export default () => {
   const [response, setResponse] = useState('');
-  
+
   async function onGreet() {
-    axios.get('http://192.168.1.79:9000')
-      .then(r => console.log(r));
     const service = new GreeterClient('http://192.168.1.79:9000');
     try {
       const request = new HelloRequest();
@@ -26,7 +18,7 @@ export default () => {
         console.log(err, res);
         setResponse(
           (res && res.toObject() && JSON.stringify(res.toObject())) ||
-            (err && err.message)
+            (err && err.message),
         );
       });
     } catch (e) {
